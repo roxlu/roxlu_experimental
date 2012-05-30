@@ -7,6 +7,7 @@ QuerySelect::QuerySelect(Database& db)
 	:Query(db)
 	,select_fields("*")
 	,where_clause("")
+    ,group_clause("")
 	,order_clause("")
 	,limit_clause("")
 {
@@ -16,6 +17,7 @@ QuerySelect::QuerySelect(Database& db, const string& selectFields)
 	:Query(db)
 	,select_fields(selectFields)
 	,where_clause("")
+    ,group_clause("")
 	,order_clause("")
 	,limit_clause("")
 {
@@ -37,6 +39,7 @@ QuerySelect& QuerySelect::operator=(const QuerySelect& other) {
 	from_table = other.from_table;
 	join_clause = other.join_clause;
 	where_clause = other.where_clause;
+    group_clause = other.group_clause;
 	order_clause = other.order_clause;
 	limit_clause = other.limit_clause;
 	field_values = other.field_values;
@@ -65,6 +68,11 @@ QuerySelect& QuerySelect::order(const string& orderClause) {
 	order_clause = orderClause;
 	return *this;
 }
+    
+QuerySelect& QuerySelect::group(const string& groupClause) {
+    group_clause = groupClause;
+    return *this;
+}
 
 QuerySelect& QuerySelect::limit(const string& limitClause) {
 	limit_clause = limitClause;
@@ -89,6 +97,11 @@ string QuerySelect::toString() {
 		sql.append(" where ");
 		sql.append(where_clause);
 		sql.append(" ");
+	}
+    
+    if(group_clause.length()) {
+		sql.append(" group by ");
+		sql.append(group_clause);
 	}
 		
 	if(order_clause.length()) {
