@@ -32,6 +32,7 @@ public:
 	
 	QuerySelect& where(const string& whereClause);
 	QuerySelect& join(const string& joinClause);
+    QuerySelect& group(const string& groupClause);
 	QuerySelect& order(const string& orderClause);
 
 
@@ -78,6 +79,7 @@ private:
 	string from_table;
 	string join_clause;
 	string where_clause;
+    string group_clause;
 	string order_clause;
 	string limit_clause;
 	
